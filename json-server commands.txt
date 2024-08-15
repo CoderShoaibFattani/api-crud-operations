@@ -1,0 +1,5 @@
+command Install:   npm install -g json-server@0.17.4
+
+run db.json file:      json-server --watch db.json
+
+run db.json on another port:       json-server --watch db.json --port 3030
