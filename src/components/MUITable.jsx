@@ -9,7 +9,6 @@ import Paper from "@mui/material/Paper";
 import propType from "prop-types";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -32,13 +31,7 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 
-const MUITable = ({ data }) => {
-  const handleDelete = (id) => {
-    axios
-      .delete(`http://localhost:3000/users/${id}`)
-      .then(alert("User deleted successfully!"))
-      .catch((error) => console.log(error));
-  };
+const MUITable = ({ data, onDelete }) => {
   const navigate = useNavigate();
   return (
     <TableContainer component={Paper}>
@@ -65,7 +58,7 @@ const MUITable = ({ data }) => {
                 <DeleteIcon
                   sx={{ color: "red", paddingRight: "10px" }}
                   onClick={() => {
-                    handleDelete(element.id);
+                    onDelete(element.id);
                   }}
                 />
                 <EditIcon
@@ -91,6 +84,7 @@ MUITable.propTypes = {
       phone: propType.string.isRequired,
     })
   ).isRequired,
+  onDelete: propType.func.isRequired,
 };
 
 export default MUITable;

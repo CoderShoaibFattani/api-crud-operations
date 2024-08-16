@@ -11,11 +11,26 @@ const Home = () => {
 
   const navigate = useNavigate();
 
-  useEffect(() => {
+  const fetchUsersData = () => {
     axios
       .get("http://localhost:3000/users")
-      .then((response) => setUsersData(response.data));
-  }, [usersData]);
+      .then((response) => setUsersData(response.data))
+      .catch((error) => console.log(error));
+  };
+
+  useEffect(() => {
+    fetchUsersData();
+  }, []);
+
+  const handleDelete = (id) => {
+    axios
+      .delete(`http://localhost:3000/users/${id}`)
+      .then(() => {
+        alert("User deleted successfully!");
+        fetchUsersData();
+      })
+      .catch((error) => console.log(error));
+  };
   return (
     <>
       <h1 style={{ display: "inline-block" }}>Users Data</h1>
@@ -26,7 +41,7 @@ const Home = () => {
       >
         Create New User
       </Button>
-      <MUITable data={usersData} />
+      <MUITable data={usersData} onDelete={handleDelete} />
     </>
   );
 };

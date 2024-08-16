@@ -28,7 +28,7 @@ const UpdateUser = () => {
     >
       <Box>
         <Typography sx={{ mb: "20px", textAlign: "center" }}>
-          Create a new user
+          Update Existing User
         </Typography>
         <form onSubmit={handleSubmit}>
           <TextField
