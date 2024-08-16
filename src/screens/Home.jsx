@@ -15,7 +15,7 @@ const Home = () => {
     axios
       .get("http://localhost:3000/users")
       .then((response) => setUsersData(response.data));
-  }, []);
+  }, [usersData]);
   return (
     <>
       <h1 style={{ display: "inline-block" }}>Users Data</h1>
