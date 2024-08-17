@@ -1,24 +1,31 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { Box, Button, Paper, TextField, Typography } from "@mui/material";
 import axios from "axios";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const UpdateUser = () => {
   const { id } = useParams();
   console.log(id);
-  const [updatedUser, setUpdatedUser] = useState({
-    name: "",
-    username: "",
-    email: "",
-    phone: "",
-  });
+
+  useEffect(() => {
+    axios
+      .get(`http://localhost:3000/users/${id}`)
+      .then((res) => setUpdatedUser(res.data))
+      .catch((err) => console.log(err));
+  },[]);
+
+  const [updatedUser, setUpdatedUser] = useState([]);
 
   const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    axios.put(`http://localhost:3000/users/${id}`, updatedUser);
-    navigate("/");
+    axios.put(`http://localhost:3000/users/${id}`, updatedUser)
+    .then(()=> {
+      alert("User updated successfully!");
+      navigate("/");
+    })
+    .catch((err) => console.log(err));
   };
 
   return (
@@ -33,8 +40,8 @@ const UpdateUser = () => {
         <form onSubmit={handleSubmit}>
           <TextField
             type="text"
-            label="Name"
             fullWidth
+            value={updatedUser.name}
             required
             sx={{ mb: "20px" }}
             onChange={(e) =>
@@ -43,8 +50,8 @@ const UpdateUser = () => {
           />
           <TextField
             type="text"
-            label="User Name"
             fullWidth
+            value={updatedUser.username}
             required
             sx={{ mb: "20px" }}
             onChange={(e) =>
@@ -53,8 +60,8 @@ const UpdateUser = () => {
           />
           <TextField
             type="email"
-            label="Email"
             fullWidth
+            value={updatedUser.email}
             required
             sx={{ mb: "20px" }}
             onChange={(e) =>
@@ -63,8 +70,8 @@ const UpdateUser = () => {
           />
           <TextField
             type="text"
-            label="Phone"
             fullWidth
+            value={updatedUser.phone}
             required
             sx={{ mb: "20px" }}
             onChange={(e) =>
